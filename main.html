@@ -1,7 +1,70 @@
-<!DOCTYPE html>
 <html lang="en">
   <head>
-    <script src="script.js " defer></script>
+       <style>
+        #div1 {
+            background-image: url("https://picsum.photos/id/237/200/300");
+            height: 300px;
+            width: 200px;
+            margin: 20px;
+        }
+
+        #div2 {
+            background-image: url("https://picsum.photos/seed/picsum/200/300");
+            height: 300px;
+            width: 200px;
+            margin: 20px;
+        }
+
+        #div3 {
+            background-image: url("https://picsum.photos/200/300?grayscale");
+            height: 300px;
+            width: 200px;
+            margin: 20px;
+        }
+
+        #div4 {
+            background-image: url("https://picsum.photos/200/300/");
+            height: 300px;
+            width: 200px;
+            margin: 20px;
+        }
+
+        #div5 {
+            background-image: url("https://picsum.photos/200/300.jpg");
+            height: 300px;
+            width: 200px;
+            margin: 20px;
+        }
+
+        #div6 {
+            background-image: url("https://picsum.photos/id/102/200/300");
+            height: 300px;
+            width: 200px;
+            margin: 20px;
+        }
+
+        div.container {
+            border: 5px solid #555;
+        }
+
+        .flex {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .selected {
+            border: 5px solid rgb(0, 195, 255);
+        }
+
+        p {
+            text-align: center;
+        }
+
+        button {
+            margin: 20px;
+        }
+    </style>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -11,12 +74,38 @@
   <body>
     <h1 style="text-align: center">Arrange Images by drag and drop</h1>
     <div class="flex" id="parent">
-      <div draggable="true" class="image" >Image 1</div>
-      <div draggable="true" class="image" >Image 2</div>
-      <div draggable="true" class="image" >Image 3</div>
-      <div draggable="true" class="image" >Image 4</div>
-      <div draggable="true" class="image" >Image 5</div>
-      <div draggable="true" class="image" >Image 6</div>
+      <div draggable="true" class="image" id="div1" >Image 1</div>
+      <div draggable="true" class="image" id="div2">Image 2</div>
+      <div draggable="true" class="image" id="div3">Image 3</div>
+      <div draggable="true" class="image" id="div4">Image 4</div>
+      <div draggable="true" class="image" id="div5">Image 5</div>
+      <div draggable="true" class="image" id="div6">Image 6</div>
     </div>
+    <script>
+        const allDivs = document.querySelectorAll(".image")
+        for(let div of allDivs){
+            div.addEventListener("dragstart",(e)=>{
+                e.dataTransfer.setData("text",div.id)
+            })
+
+            div.addEventListener("dragover",(e)=>{
+                e.preventDefault()
+            })
+            div.addEventListener("drop",(e)=>{
+                e.preventDefault()
+                const dropElement = e.target;
+                const dropElementBgImage = getComputedStyle(dropElement).backgroundImage
+                const draggedElement = document.getElementById(e.dataTransfer.getData("text"))
+                const draggedElementBgImage = getComputedStyle(draggedElement).backgroundImage
+                console.log("dragged element", draggedElement)
+                console.log('drop element',dropElement)
+                draggedElement.style.backgroundImage = dropElementBgImage
+                dropElement.style.backgroundImage = draggedElementBgImage
+
+                
+            })
+
+        }
+    </script>
   </body>
 </html>
